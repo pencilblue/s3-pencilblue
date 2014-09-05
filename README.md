@@ -9,8 +9,8 @@ twitter [@getpencilblue](https://twitter.com/GetPencilBlue) and on our
 or core) are always welcome. 
 
 Installation:
-# Clone repo into your PencilBlue's **plugins** directory.
-# Edit your config.json file to configure the media provider
+1) Clone repo into your PencilBlue's **plugins** directory.
+2) Edit your config.json file to configure the media provider
 ```
 {
   "media": {
@@ -19,13 +19,13 @@ Installation:
   }
 }
 ```
-# Start or restart your PB instance
-# Navigate to **Manage Plugins** section in PencilBlue
-# Install the **s3** plugin
-# Upon successful install click the **Settings** button for the s3 plugin
-# Enter your S3 Access Key and Secret Access Key
-# Optionally, enter your region.
-# Click Save
+3) Start or restart your PB instance
+4) Navigate to **Manage Plugins** section in PencilBlue
+5) Install the **s3** plugin
+6) Upon successful install click the **Settings** button for the s3 plugin
+7) Enter your S3 Access Key and Secret Access Key
+8) Optionally, enter your region.
+9) Click Save
 
 You should be good to go!
 

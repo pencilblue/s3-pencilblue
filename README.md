@@ -8,7 +8,7 @@ twitter [@getpencilblue](https://twitter.com/GetPencilBlue) and on our
 [Sub-Reddit](http://www.reddit.com/domain/pencilblue.org/).  We're always happy to help and pull requests (plugin 
 or core) are always welcome. 
 
-Installtion:
+Installation:
 # Clone repo into your PencilBlue's **plugins** directory.
 # Edit your config.json file to configure the media provider
 ```

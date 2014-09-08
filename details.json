@@ -1,5 +1,5 @@
 {
-    "uid": "s3",
+    "uid": "s3-pencilblue",
     "name": "Amazon S3",
 	"description": "The Amazon S3 plugin provides a wrapper around the aws-skd module to implement the MediaProvider interface",
     "version": "0.0.1",

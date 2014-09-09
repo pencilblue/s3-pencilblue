@@ -1,4 +1,4 @@
-S3
+S3 PencilBlue
 ==
 
 A plugin that allows for S3 to be the media storage for the platform.
@@ -17,7 +17,6 @@ Installation:
 {
   "media": {
     "provider": "/plugins/s3-pencilblue/include/s3_media_provider.js",
-    "bucket": "S3_BUCKET_NAME_HERE"
   }
 }
 ```
@@ -25,11 +24,11 @@ Installation:
 
 4) Navigate to **Manage Plugins** section in PencilBlue
 
-5) Install the **s3** plugin
+5) Install the **s3-pencilblue** plugin
 
-6) Upon successful install click the **Settings** button for the s3 plugin
+6) Upon successful install click the **Settings** button for the s3-pencilblue plugin
 
-7) Enter your S3 **Access Key** and **Secret Access Key**
+7) Enter your S3 **Access Key**, **Secret Access Key** and **Bucket** name
 
 8) Optionally, enter your **region**.
 

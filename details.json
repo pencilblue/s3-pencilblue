@@ -24,6 +24,10 @@
 			"value": ""
         },
         {
+			"name": "bucket",
+			"value": ""
+        },
+        {
 			"name": "region",
 			"value": "us-east-1"
         }

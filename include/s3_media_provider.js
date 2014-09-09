@@ -16,7 +16,7 @@
 */
 
 //dependencies
-var Aws = pb.PluginService.require('s3', 'aws-sdk');
+var Aws = pb.PluginService.require('s3-pencilblue', 'aws-sdk');
 
 /**
  * Media provider to upload files to S3
@@ -29,12 +29,12 @@ function S3MediaProvider() {};
 /**
  * Retrieves an instance of the Amazon S3 client
  * @method getClient
- * @param {Function} cb A callback that provides two functions: The first an 
+ * @param {Function} cb A callback that provides parameters: The first an 
  * error, if occurred.  The second is an S3 instance for interfacing with 
- * Amazon S3.
+ * Amazon S3.  The last parameter is the hash of the plugin settings.  
  */
 S3MediaProvider.prototype.getClient = function(cb) {
-    pb.plugins.getSettings('s3', function(err, settings) {
+    pb.plugins.getSettings('s3-pencilblue', function(err, settings) {
         if (util.isError(err)) {
             return cb(err);
         }
@@ -47,7 +47,7 @@ S3MediaProvider.prototype.getClient = function(cb) {
         
         Aws.config.update(setts);
         var client = new Aws.S3();
-        cb(null, client);
+        cb(null, client, setts);
     });
 };
 
@@ -71,13 +71,13 @@ S3MediaProvider.prototype.getStream = function(mediaPath, options, cb) {
     }
     
     //get an s3 client instance
-    this.getClient(function(err, s3) {
+    this.getClient(function(err, s3, settings) {
         if (util.isError(err)) {
             return cb(err);
         }
 
         var params = {
-            Bucket: options.bucket || pb.config.media.bucket, /* required */
+            Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
             Key: mediaPath, /* required */
 //            IfMatch: 'STRING_VALUE',
 //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
@@ -119,14 +119,14 @@ S3MediaProvider.prototype.get = function(mediaPath, options, cb) {
     }
 
     //retrieve the client
-    this.getClient(function(err, s3) {
+    this.getClient(function(err, s3, settings) {
         if (util.isError(err)) {
             return cb(err);
         }
         
         //retrieve the media
         var params = {
-            Bucket: options.bucket || pb.config.media.bucket, /* required */
+            Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
             Key: mediaPath, /* required */
 //            IfMatch: 'STRING_VALUE',
 //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
@@ -208,13 +208,13 @@ S3MediaProvider.prototype.set = function(fileDataStrOrBuffOrStream, mediaPath, o
         return cb(new Error('The options parameter must be an object'));
     }
     
-    this.getClient(function(err, s3) {
+    this.getClient(function(err, s3, settings) {
         if (util.isError(err)) {
             return cb(err);
         }
         
         var params = {
-            Bucket: options.Bucket || pb.config.media.bucket, /* required */
+            Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
             Key: mediaPath, /* required */
             Body: fileDataStrOrBuffOrStream,
 //            ACL: 'private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control',
@@ -294,14 +294,14 @@ S3MediaProvider.prototype.delete = function(mediaPath, options, cb) {
     }
     
     //retrieve the client
-    this.getClient(function(err, s3) {
+    this.getClient(function(err, s3, settings) {
         if(util.isError(err)) {
             return cb(err);
         }
          
         //set the options and remove the media
         var params = {
-            Bucket: options.bucket || pb.config.media.bucket, /* required */
+            Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
             Key: mediaPath, /* required */
 //            MFA: 'STRING_VALUE',
 //            VersionId: 'STRING_VALUE'
@@ -319,13 +319,13 @@ S3MediaProvider.prototype.delete = function(mediaPath, options, cb) {
  * occurred and an object that contains the file stats
  */
 S3MediaProvider.prototype.stat = function(mediaPath, cb) {
-    this.getClient(function(err, s3) {
+    this.getClient(function(err, s3, settings) {
         if(util.isError(err)) {
             return cb(err);
         }
         
         var options = {
-            Bucket: pb.config.media.bucket, /* required */
+            Bucket: pb.config.media.bucket || settings.bucket, /* required */
             Key: mediaPath, /* required */
 //            IfMatch: 'STRING_VALUE',
 //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,

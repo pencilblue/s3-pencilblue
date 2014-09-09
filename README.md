@@ -16,7 +16,7 @@ Installation:
 ```
 {
   "media": {
-    "provider": "/plugins/s3/include/s3_media_provider.js",
+    "provider": "/plugins/s3-pencilblue/include/s3_media_provider.js",
     "bucket": "S3_BUCKET_NAME_HERE"
   }
 }

@@ -78,7 +78,7 @@ S3MediaProvider.prototype.getStream = function(mediaPath, options, cb) {
 
         var params = {
             Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
-            Key: mediaPath, /* required */
+            Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
 //            IfMatch: 'STRING_VALUE',
 //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
 //            IfNoneMatch: 'STRING_VALUE',
@@ -127,7 +127,7 @@ S3MediaProvider.prototype.get = function(mediaPath, options, cb) {
         //retrieve the media
         var params = {
             Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
-            Key: mediaPath, /* required */
+            Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
 //            IfMatch: 'STRING_VALUE',
 //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
 //            IfNoneMatch: 'STRING_VALUE',
@@ -215,7 +215,7 @@ S3MediaProvider.prototype.set = function(fileDataStrOrBuffOrStream, mediaPath, o
         
         var params = {
             Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
-            Key: mediaPath, /* required */
+            Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
             Body: fileDataStrOrBuffOrStream,
 //            ACL: 'private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control',
 //            CacheControl: options.cache'STRING_VALUE',
@@ -302,7 +302,7 @@ S3MediaProvider.prototype.delete = function(mediaPath, options, cb) {
         //set the options and remove the media
         var params = {
             Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
-            Key: mediaPath, /* required */
+            Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
 //            MFA: 'STRING_VALUE',
 //            VersionId: 'STRING_VALUE'
         };
@@ -326,7 +326,7 @@ S3MediaProvider.prototype.stat = function(mediaPath, cb) {
         
         var options = {
             Bucket: pb.config.media.bucket || settings.bucket, /* required */
-            Key: mediaPath, /* required */
+            Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
 //            IfMatch: 'STRING_VALUE',
 //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
 //            IfNoneMatch: 'STRING_VALUE',
@@ -339,6 +339,21 @@ S3MediaProvider.prototype.stat = function(mediaPath, cb) {
         };
         s3.headObject(options, cb);
     });
+};
+
+/**
+ * S3 isn't a huge fan of "/" characters prefixing keys.
+ * This function strips that out if it is the first character in the path.
+ * @static
+ * @method mediaPathTransform
+ * @param {String} mediaPath
+ * @return {String} The media path without any prefixing "/"
+ */
+S3MediaProvider.mediaPathTransform = function(mediaPath) {
+    if (pb.utils.isString(mediaPath) && mediaPath.indexOf('/') === 0) {
+        mediaPath = mediaPath.substring(1);
+    }
+    return mediaPath;
 };
 
 //exports

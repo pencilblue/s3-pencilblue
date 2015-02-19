@@ -18,8 +18,9 @@
 module.exports = function S3MediaProviderModule(pb) {
     
     //pb dependencies
-    var util = pb.util;
-    var Aws  = pb.PluginService.require('s3-pencilblue', 'aws-sdk');
+    var util          = pb.util;
+    var PluginService = pb.PluginService;
+    var Aws           = PluginService.require('s3-pencilblue', 'aws-sdk');
 
     /**
      * Media provider to upload files to S3
@@ -27,7 +28,15 @@ module.exports = function S3MediaProviderModule(pb) {
      * @constructor
      * @implements MediaProvider
      */
-    function S3MediaProvider() {};
+    function S3MediaProvider() {
+        
+        /**
+         *
+         * @property pluginService
+         * @type {PluginService}
+         */
+        this.pluginService = new PluginService();
+    };
 
     /**
      * Retrieves an instance of the Amazon S3 client
@@ -37,15 +46,9 @@ module.exports = function S3MediaProviderModule(pb) {
      * Amazon S3.  The last parameter is the hash of the plugin settings.  
      */
     S3MediaProvider.prototype.getClient = function(cb) {
-        pb.plugins.getSettings('s3-pencilblue', function(err, settings) {
+        this.pluginService.getSettingsKV('s3-pencilblue', function(err, setts) {
             if (util.isError(err)) {
                 return cb(err);
-            }
-
-            //build options
-            var setts = {};
-            for (var i = 0; i < settings.length; i++) {
-                setts[settings[i].name] = settings[i].value;
             }
 
             Aws.config.update(setts);

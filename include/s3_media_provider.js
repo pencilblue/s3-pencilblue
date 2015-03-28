@@ -156,7 +156,7 @@ module.exports = function S3MediaProviderModule(pb) {
                 }
 
                 var body = data.Body;
-                if (body instanceof Buffer || pb.util.isString(body)) {
+                if (body instanceof Buffer || util.isString(body)) {
                     cb(null, body);
                 }
                 else { 

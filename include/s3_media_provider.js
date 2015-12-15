@@ -28,14 +28,13 @@ module.exports = function S3MediaProviderModule(pb) {
      * @constructor
      * @implements MediaProvider
      */
-    function S3MediaProvider() {
+    function S3MediaProvider(context) {
         
         /**
-         *
          * @property pluginService
          * @type {PluginService}
          */
-        this.pluginService = new PluginService();
+        this.pluginService = new PluginService(context);
     };
 
     /**

@@ -25,11 +25,14 @@ module.exports = function S3Module(/*pb*/) {
 
     /**
      * Called when the application is being installed for the first time.
-     *
-     * @param cb A callback that must be called upon completion.  cb(Error, Boolean).
+     * @static
+     * @method onInstallWithContext
+     * @param {Object} context
+     * @param {Object} context.site
+     * @param {Function} cb A callback that must be called upon completion.  cb(Error, Boolean).
      * The result should be TRUE on success and FALSE on failure
      */
-    S3.onInstall = function(cb) {
+    S3.onInstallWithContext = function(context, cb) {
         cb(null, true);
     };
 
@@ -37,11 +40,14 @@ module.exports = function S3Module(/*pb*/) {
      * Called when the application is uninstalling this plugin.  The plugin should
      * make every effort to clean up any plugin-specific DB items or any in function
      * overrides it makes.
-     *
-     * @param cb A callback that must be called upon completion.  cb(Error, Boolean).
+     * @static
+     * @method onUninstallWithContext
+     * @param {Object} context
+     * @param {Object} context.site
+     * @param {Function} cb A callback that must be called upon completion.  cb(Error, Boolean).
      * The result should be TRUE on success and FALSE on failure
      */
-    S3.onUninstall = function(cb) {
+    S3.onUninstallWithContext = function(context, cb) {
         cb(null, true);
     };
 

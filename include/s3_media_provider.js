@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015  PencilBlue, LLC
+    Copyright (C) 2016  PencilBlue, LLC
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,13 +14,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+'use strict';
 
 module.exports = function S3MediaProviderModule(pb) {
 
     //pb dependencies
     var util          = pb.util;
     var PluginService = pb.PluginService;
-    var Aws           = PluginService.require('s3-pencilblue', 'aws-sdk');
+    var NpmPluginDependencyService = pb.NpmPluginDependencyService;
+    var Aws = NpmPluginDependencyService.require('s3-pencilblue', 'aws-sdk');
 
     /**
      * Media provider to upload files to S3
@@ -35,7 +37,7 @@ module.exports = function S3MediaProviderModule(pb) {
          * @type {PluginService}
          */
         this.pluginService = new PluginService(context);
-    };
+    }
 
     /**
      * Retrieves an instance of the Amazon S3 client
@@ -83,7 +85,7 @@ module.exports = function S3MediaProviderModule(pb) {
 
             var params = {
                 Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
-                Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
+                Key: S3MediaProvider.mediaPathTransform(mediaPath) /* required */
     //            IfMatch: 'STRING_VALUE',
     //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
     //            IfNoneMatch: 'STRING_VALUE',
@@ -132,7 +134,7 @@ module.exports = function S3MediaProviderModule(pb) {
             //retrieve the media
             var params = {
                 Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
-                Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
+                Key: S3MediaProvider.mediaPathTransform(mediaPath) /* required */
     //            IfMatch: 'STRING_VALUE',
     //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
     //            IfNoneMatch: 'STRING_VALUE',
@@ -180,7 +182,7 @@ module.exports = function S3MediaProviderModule(pb) {
      * Sets media content into an S3 bucket based on the specified media path and
      * options.  The stream provided must be a ReadableStream.
      * @method setStream
-     * @param {ReadableStream} stream The content stream
+     * @param {Stream} stream The content stream
      * @param {String} mediaPath The path/key to the media.  Typically this is a
      * path such as: /media/2014/9/540a3ff0e30ddfb9e60000be-1409957872680.jpg
      * @param {Object} [options] Options for interacting with S3
@@ -221,7 +223,7 @@ module.exports = function S3MediaProviderModule(pb) {
             var params = {
                 Bucket: options.bucket || pb.config.media.bucket || settings.bucket, /* required */
                 Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
-                Body: fileDataStrOrBuffOrStream,
+                Body: fileDataStrOrBuffOrStream
     //            ACL: 'private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control',
     //            CacheControl: options.cache'STRING_VALUE',
     //            ContentDisposition: 'STRING_VALUE',
@@ -331,7 +333,7 @@ module.exports = function S3MediaProviderModule(pb) {
 
             var options = {
                 Bucket: pb.config.media.bucket || settings.bucket, /* required */
-                Key: S3MediaProvider.mediaPathTransform(mediaPath), /* required */
+                Key: S3MediaProvider.mediaPathTransform(mediaPath) /* required */
     //            IfMatch: 'STRING_VALUE',
     //            IfModifiedSince: new Date || 'Wed Dec 31 1969 16:00:00 GMT-0800 (PST)' || 123456789,
     //            IfNoneMatch: 'STRING_VALUE',

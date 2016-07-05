@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015  PencilBlue, LLC
+    Copyright (C) 2016  PencilBlue, LLC
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,12 +14,14 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+'use strict';
 
 module.exports = function S3Module(/*pb*/) {
 
     /**
      * Main Module file for the Amazon S3 Media Provider Plugin
      * @class S3
+     * @constructor
      */
     function S3(){}
 
@@ -55,18 +57,22 @@ module.exports = function S3Module(/*pb*/) {
      * Called when the application is starting up. The function is also called at
      * the end of a successful install. It is guaranteed that all core PB services
      * will be available including access to the core DB.
-     *
-     * @param cb A callback that must be called upon completion.  cb(Error, Boolean).
+     * @static
+     * @method onStartup
+     * @param {object} context
+     * @param {string} context.site
+     * @param cb (Error, boolean) A callback that must be called upon completion.
      * The result should be TRUE on success and FALSE on failure
      */
-    S3.onStartup = function(cb) {
+    S3.onStartupWithContext = function(context, cb) {
         cb(null, true);
     };
 
     /**
      * Called when the application is gracefully shutting down.  No guarantees are
      * provided for how much time will be provided the plugin to shut down.
-     *
+     * @static
+     * @method onShutdown
      * @param cb A callback that must be called upon completion.  cb(Error, Boolean).
      * The result should be TRUE on success and FALSE on failure
      */
